@@ -68,7 +68,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView
+        <Button
+            android:id="@+id/btn_forgetPassword"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="忘记密码"

@@ -49,6 +49,10 @@
         <!--注册页-->
         <activity android:name=".ui.RegisterActivity"
             android:label="注册"/>
+
+        <!--忘记密码-->
+        <activity android:name=".ui.ForgetPasswordActivity"
+            android:label="忘记密码"/>
         
     </application>
 

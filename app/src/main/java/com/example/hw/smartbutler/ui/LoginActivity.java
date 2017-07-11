@@ -28,7 +28,7 @@ import cn.bmob.v3.listener.SaveListener;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    private Button btn_login, btn_register;
+    private Button btn_login, btn_register, btn_forgetPassword;
     private EditText et_userName, et_password;
     private CheckBox keep_password;
 
@@ -49,6 +49,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         btn_register = (Button) findViewById(R.id.btn_register);
         btn_register.setOnClickListener(this);
+
+        btn_forgetPassword = (Button) findViewById(R.id.btn_forgetPassword);
+        btn_forgetPassword.setOnClickListener(this);
 
         //记住密码控件
         keep_password = (CheckBox) findViewById(R.id.keep_password);
@@ -73,6 +76,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.btn_login:
                 HWLog.d("-->> btn_login");
                 handleLogin();
+                break;
+            case R.id.btn_forgetPassword:
+                startActivity(new Intent(this, ForgetPasswordActivity.class));
                 break;
         }
     }
