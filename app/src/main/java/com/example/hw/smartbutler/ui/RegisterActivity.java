@@ -3,6 +3,7 @@ package com.example.hw.smartbutler.ui;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,8 +12,7 @@ import android.widget.Toast;
 
 import com.example.hw.smartbutler.R;
 import com.example.hw.smartbutler.entity.MyUser;
-import com.example.hw.smartbutler.utils.HWLog;
-import com.example.hw.smartbutler.utils.TextUtils;
+import com.example.hw.smartbutler.utils.StaticClass;
 
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
@@ -24,7 +24,7 @@ import cn.bmob.v3.listener.SaveListener;
 
 public class RegisterActivity extends BaseActivity implements View.OnClickListener{
 
-    private EditText et_user, et_age, et_desc, et_pass, et_password, et_email;
+    private EditText et_username, et_age, et_desc, et_pass, et_password, et_email;
     private RadioGroup radio_Group;
     private Button btn_register;
     //性别
@@ -38,7 +38,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void initView(){
-        et_user = (EditText) findViewById(R.id.et_user);
+        et_username = (EditText) findViewById(R.id.et_username);
         et_age = (EditText) findViewById(R.id.et_age);
         et_desc = (EditText) findViewById(R.id.et_desc);
         et_pass = (EditText) findViewById(R.id.et_pass);
@@ -46,7 +46,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         et_email = (EditText) findViewById(R.id.et_email);
 
         radio_Group = (RadioGroup)findViewById(R.id.radio_Group);
-        btn_register = (Button) findViewById(R.id.btn_register_true);
+        btn_register = (Button) findViewById(R.id.btn_register);
         btn_register.setOnClickListener(this);
     }
 
@@ -54,7 +54,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.btn_register_true:
+            case R.id.btn_register:
                 getTextValue();
                 break;
         }
@@ -65,7 +65,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
     private void getTextValue(){
 
         //获取输入框的值
-        String name = et_user.getText().toString().trim();
+        String name = et_username.getText().toString().trim();
         String age = et_age.getText().toString().trim();
         String desc = et_desc.getText().toString().trim();
         String pass = et_pass.getText().toString().trim();
@@ -87,11 +87,11 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
             }
 
         } else {//数据为空
-            Toast.makeText(this, "输入框不能为空", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, StaticClass.EDIT_TEXT_NOT_NIL, Toast.LENGTH_SHORT).show();
         }
     }
 
-    //生成用户数据
+    //处理注册逻辑
     private void generateUser(String name, String age, String desc, String email, String password){
 
         //判断性别

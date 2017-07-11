@@ -19,4 +19,9 @@ public class StaticClass {
     //Bmob APPID
     public static final String BMOB_APP_ID = "b030873e140ba238058c2bc50e8f8ed9";
 
+    //User
+    public static final String USER_NAME = "UserName";
+    public static final String PASS_WORD = "Password";
+    public static final String KEEP_PASS_WORD = "Keep_Password";
+    public static final String EDIT_TEXT_NOT_NIL = "输入框不能为空";
 }
