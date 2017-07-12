@@ -98,7 +98,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         radio_Group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, @IdRes int checkedId) {
-                if (checkedId == R.id.rb_boy){
+                if (checkedId == R.id.rb_boy) {
                     isGender = true;
                 } else {
                     isGender = false;
@@ -108,7 +108,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
 
         //判断简介
         if (TextUtils.isEmpty(desc)){
-            desc = "这个人很懒，什么也没有留下";
+            desc = StaticClass.USER_DEDC_IS_NIL;
         }
 
         //生成用户数据

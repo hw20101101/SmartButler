@@ -60,17 +60,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void initData(){
+
+        //两个数组中元素的顺序要一致
         mTitle = new ArrayList<>();
         mTitle.add("服务管家");
         mTitle.add("微信精选");
         mTitle.add("美女社区");
         mTitle.add("个人中心");
 
+        //两个数组中元素的顺序要一致
         mFragment = new ArrayList<>();
         mFragment.add(new ButlerFragment());
+        mFragment.add(new WechatFragment());
         mFragment.add(new GirlFragment());
         mFragment.add(new UserFragment());
-        mFragment.add(new WechatFragment());
     }
 
     private void initView(){

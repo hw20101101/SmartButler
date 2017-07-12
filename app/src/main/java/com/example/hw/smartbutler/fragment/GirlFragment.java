@@ -18,7 +18,7 @@ public class GirlFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.girl_butler, null);
+        View view = inflater.inflate(R.layout.fragment_girl, null);
         return view;
     }
 }

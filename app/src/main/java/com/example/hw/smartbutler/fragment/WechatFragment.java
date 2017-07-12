@@ -18,7 +18,7 @@ public class WechatFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.wechat_butler, null);
+        View view = inflater.inflate(R.layout.fragment_wechat, null);
         return view;
     }
 }
