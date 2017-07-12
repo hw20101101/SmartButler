@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -17,6 +18,7 @@ import com.example.hw.smartbutler.entity.MyUser;
 import com.example.hw.smartbutler.utils.HWLog;
 import com.example.hw.smartbutler.utils.ShareUtils;
 import com.example.hw.smartbutler.utils.StaticClass;
+import com.example.hw.smartbutler.view.ProgressDialog;
 
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
@@ -31,6 +33,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private Button btn_login, btn_register, btn_forgetPassword;
     private EditText et_userName, et_password;
     private CheckBox keep_password;
+    //进度条弹窗
+    private ProgressDialog progress_Dialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,6 +44,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void initView(){
+
+        progress_Dialog = new ProgressDialog(this, 200, 200, R.layout.dialog_progress, R.style.dialog_progress_style, Gravity.CENTER, R.style.pop_anim_style);
+        //设置点击屏幕无效
+        progress_Dialog.setCancelable(false);
 
         et_userName = (EditText) findViewById(R.id.et_username);
         et_password = (EditText) findViewById(R.id.et_password);
@@ -90,6 +98,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         HWLog.d("-->> userName:" + userName + "password:" + password);
 
         if (!TextUtils.isEmpty(userName) & !TextUtils.isEmpty(password)){
+            progress_Dialog.show();
+
             final MyUser user = new MyUser();
             user.setUsername(userName);
             user.setPassword(password);
@@ -97,10 +107,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             user.login(new SaveListener<MyUser>() {
                 @Override
                 public void done(MyUser myUser, BmobException e) {
+                    progress_Dialog.dismiss();
+
                     if (e == null){
-
                         if (user.getEmailVerified()){//判断是否已验证邮箱
-
                             //跳转到主界面
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             finish();

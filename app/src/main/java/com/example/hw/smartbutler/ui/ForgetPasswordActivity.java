@@ -93,7 +93,7 @@ public class ForgetPasswordActivity extends BaseActivity implements View.OnClick
         if (!TextUtils.isEmpty(oldPassword) & !TextUtils.isEmpty(newPassword) & !TextUtils.isEmpty(againPassword)){
 
             if (newPassword.equals(againPassword)){
- 
+
                 //调用 Bmob 的修改密码方法
                 BmobUser.updateCurrentUserPassword(oldPassword, newPassword, new UpdateListener() {
                     @Override
