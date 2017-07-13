@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">智能管家</string>
     <string name="text_setting">设置</string>
+    <string name="text_camera">拍照</string>
+    <string name="text_photo">相册</string>
+    <string name="text_cancel">取消</string>
+
+    <string name="text_login">login</string>
+    <string name="text_register">register</string>
 </resources>

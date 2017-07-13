@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">SmartButler</string>
+    <string name="text_setting">setting</string>
+    <string name="text_camera">camera</string>
+    <string name="text_photo">photo</string>
+    <string name="text_cancel">cancel</string>
+
+    <string name="text_login">login</string>
+    <string name="text_register">register</string>
+
 </resources>

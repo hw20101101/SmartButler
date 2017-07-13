@@ -11,34 +11,32 @@ import com.example.hw.smartbutler.R;
 
 /**
  * Created by HW on 12/07/2017.
- * 自定义的进度条弹窗
+ * 自定义弹窗
  */
 
-public class ProgressDialog extends Dialog {
+public class CustomDialog extends Dialog {
 
     //模板
-    public ProgressDialog(@NonNull Context context, int layout, int style) {
-        this(context, WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT, layout, style, Gravity.CENTER);
+    public CustomDialog(@NonNull Context context, int layout, int style) {
+        this(context, WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT, layout, style, Gravity.CENTER);
     }
 
     //属性
-    public ProgressDialog(@NonNull Context context, int width, int height, int layout, int style, int gravity, int animations) {
+    public CustomDialog(@NonNull Context context, int width, int height, int layout, int style, int gravity, int animations) {
         super(context, style);
 
         setContentView(layout);
         Window window = getWindow();
         WindowManager.LayoutParams layoutParams = window.getAttributes();
-        layoutParams.width = width;
-        layoutParams.height = height;
+        layoutParams.width = WindowManager.LayoutParams.MATCH_PARENT;
+        layoutParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
         layoutParams.gravity = gravity;
         window.setAttributes(layoutParams);
         window.setWindowAnimations(animations);
     }
 
     //实例
-    public ProgressDialog(@NonNull Context context, int width, int height, int layout, int style, int gravity) {
+    public CustomDialog(@NonNull Context context, int width, int height, int layout, int style, int gravity) {
         this(context, width, height, layout, style, gravity, R.style.pop_anim_style);
-
     }
-
 }

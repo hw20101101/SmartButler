@@ -50,7 +50,7 @@
         android:background="@drawable/button_bg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="登录"/>
+        android:text="@string/text_login"/>
 
     <Button
         android:id="@+id/btn_register"
@@ -59,7 +59,7 @@
         android:background="@drawable/button_bg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="注册"/>
+        android:text="@string/text_register"/>
 
     <LinearLayout
         android:layout_marginTop="10dp"

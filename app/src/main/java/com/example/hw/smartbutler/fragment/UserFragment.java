@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +18,12 @@ import com.example.hw.smartbutler.R;
 import com.example.hw.smartbutler.entity.MyUser;
 import com.example.hw.smartbutler.ui.LoginActivity;
 import com.example.hw.smartbutler.utils.StaticClass;
+import com.example.hw.smartbutler.view.CustomDialog;
 
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.UpdateListener;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
  * Created by HW on 09/07/2017.
@@ -29,9 +32,12 @@ import cn.bmob.v3.listener.UpdateListener;
 
 public class UserFragment extends Fragment implements View.OnClickListener{
 
-    private Button btn_change, btn_logout;
+    private Button btn_change, btn_logout, btn_camera, btn_photo, btn_cancel;
     private TextView tv_editData;
     private EditText et_username, et_age, et_sex, et_desc;
+    private CustomDialog photo_Dialog;
+    //用户头像
+    private CircleImageView img_profile;
 
     @Nullable
     @Override
@@ -42,6 +48,11 @@ public class UserFragment extends Fragment implements View.OnClickListener{
     }
 
     private void initView(View view) {
+
+        //用户头像
+        img_profile = view.findViewById(R.id.img_profile);
+        img_profile.setOnClickListener(this);
+
         btn_change = view.findViewById(R.id.btn_change);
         btn_change.setOnClickListener(this);
 
@@ -58,16 +69,46 @@ public class UserFragment extends Fragment implements View.OnClickListener{
         //设置控件不可编辑，也可以在xml中设置
         setEditTextEnabled(false);
 
+        photo_Dialog = new CustomDialog(getActivity(), 0, 0, R.layout.dialog_photo, R.style.pop_anim_style, Gravity.BOTTOM, 0);
+        //设置点击屏幕无效
+        photo_Dialog.setCancelable(false);
+
+        btn_camera = photo_Dialog.findViewById(R.id.btn_camera);
+        btn_camera.setOnClickListener(this);
+        btn_photo = photo_Dialog.findViewById(R.id.btn_photo);
+        btn_photo.setOnClickListener(this);
+        btn_cancel = photo_Dialog.findViewById(R.id.btn_cancel);
+        btn_cancel.setOnClickListener(this);
+
         MyUser user = BmobUser.getCurrentUser(MyUser.class);
-        et_username.setText(user.getUsername());
-        et_sex.setText(user.isSex() ? "男" : "女");
-        et_age.setText(user.getAge() + "");
-        et_desc.setText(user.getDesc());
+        if (user != null) {
+            et_username.setText(user.getUsername());
+            et_sex.setText(user.isSex() ? "男" : "女");
+            et_age.setText(user.getAge() + "");
+            et_desc.setText(user.getDesc());
+        }
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()){
+
+            case R.id.img_profile:
+                photo_Dialog.show();
+                break;
+
+            case R.id.btn_camera:
+                photo_Dialog.dismiss();
+                break;
+
+            case R.id.btn_photo:
+                photo_Dialog.dismiss();
+                break;
+
+            case R.id.btn_cancel:
+                photo_Dialog.dismiss();
+                break;
+
             case R.id.btn_change:
                 saveUserData();
                 break;
@@ -82,6 +123,8 @@ public class UserFragment extends Fragment implements View.OnClickListener{
                 break;
         }
     }
+
+
 
     //用户退出登录
     private void userLogout(){

@@ -18,7 +18,7 @@ import com.example.hw.smartbutler.entity.MyUser;
 import com.example.hw.smartbutler.utils.HWLog;
 import com.example.hw.smartbutler.utils.ShareUtils;
 import com.example.hw.smartbutler.utils.StaticClass;
-import com.example.hw.smartbutler.view.ProgressDialog;
+import com.example.hw.smartbutler.view.CustomDialog;
 
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.SaveListener;
@@ -34,7 +34,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private EditText et_userName, et_password;
     private CheckBox keep_password;
     //进度条弹窗
-    private ProgressDialog progress_Dialog;
+    private CustomDialog progress_Dialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void initView(){
 
-        progress_Dialog = new ProgressDialog(this, 200, 200, R.layout.dialog_progress, R.style.dialog_progress_style, Gravity.CENTER, R.style.pop_anim_style);
+        progress_Dialog = new CustomDialog(this, 200, 200, R.layout.dialog_progress, R.style.dialog_progress_style, Gravity.CENTER, R.style.pop_anim_style);
         //设置点击屏幕无效
         progress_Dialog.setCancelable(false);
 
@@ -77,12 +77,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.btn_register:
-                HWLog.d("-->> btn_register");
                 startActivity(new Intent(this, RegisterActivity.class));
                 break;
 
             case R.id.btn_login:
-                HWLog.d("-->> btn_login");
                 handleLogin();
                 break;
             case R.id.btn_forgetPassword:
@@ -95,7 +93,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void handleLogin(){
         String userName = et_userName.getText().toString().trim();
         String password = et_password.getText().toString().trim();
-        HWLog.d("-->> userName:" + userName + "password:" + password);
 
         if (!TextUtils.isEmpty(userName) & !TextUtils.isEmpty(password)){
             progress_Dialog.show();
