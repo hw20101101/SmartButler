@@ -1,7 +1,11 @@
 package com.example.hw.smartbutler.fragment;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -19,7 +23,10 @@ import com.example.hw.smartbutler.entity.MyUser;
 import com.example.hw.smartbutler.ui.LoginActivity;
 import com.example.hw.smartbutler.utils.HWLog;
 import com.example.hw.smartbutler.utils.StaticClass;
+import com.example.hw.smartbutler.utils.UtilTools;
 import com.example.hw.smartbutler.view.CustomDialog;
+
+import java.io.File;
 
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
@@ -39,6 +46,12 @@ public class UserFragment extends Fragment implements View.OnClickListener{
     private CustomDialog photo_Dialog;
     //用户头像
     private CircleImageView img_profile;
+
+    //用户头像设置相关
+    public static final String PHOTO_IMAGE_FILE_NAME = "file.jpe";
+    public static final int CAMERA_REQUEST_CODE = 100;
+    public static final int Photo_REQUEST_CODE = 101;
+    public static final int PHOTOZOOM_REQUEST_CODE = 102;
 
     @Nullable
     @Override
@@ -69,6 +82,12 @@ public class UserFragment extends Fragment implements View.OnClickListener{
         //用户头像
         img_profile = view.findViewById(R.id.img_profile);
         img_profile.setOnClickListener(this);
+
+        //设置用户头像
+        Bitmap bitmap = UtilTools.getImageFromShareUtils(getActivity());
+        if (bitmap != null){
+            img_profile.setImageBitmap(bitmap);
+        }
 
         photo_Dialog = new CustomDialog(getActivity(), 0, 0, R.layout.dialog_photo, R.style.pop_anim_style, Gravity.BOTTOM, 0);
         //设置点击屏幕无效
@@ -107,11 +126,11 @@ public class UserFragment extends Fragment implements View.OnClickListener{
                 break;
 
             case R.id.btn_camera:
-                photo_Dialog.dismiss();
+                toCamera();
                 break;
 
             case R.id.btn_photo:
-                photo_Dialog.dismiss();
+                toPhoto();
                 break;
 
             case R.id.btn_cancel:
@@ -133,7 +152,80 @@ public class UserFragment extends Fragment implements View.OnClickListener{
         }
     }
 
+    //跳转到相册
+    private void toPhoto() {
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setType("image/*");
+        startActivityForResult(intent, Photo_REQUEST_CODE);
 
+        photo_Dialog.dismiss();
+    }
+
+    //跳转到相机
+    private void toCamera() {
+        File file = new File(Environment.getExternalStorageDirectory(), PHOTO_IMAGE_FILE_NAME);
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(file));
+        startActivityForResult(intent, CAMERA_REQUEST_CODE);
+
+        photo_Dialog.dismiss();
+    }
+
+    //相机和相册的回调方法
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != getActivity().RESULT_CANCELED){
+            switch (requestCode){
+                case CAMERA_REQUEST_CODE://相机
+                    File file = new File(Environment.getExternalStorageDirectory(), PHOTO_IMAGE_FILE_NAME);
+                    photoZoom(Uri.fromFile(file));
+                    break;
+
+                case Photo_REQUEST_CODE://相册
+                    photoZoom(data.getData());
+                    break;
+
+                case PHOTOZOOM_REQUEST_CODE://图片裁剪结果
+                    handleAfterPhotoZoom(data);
+                    break;
+            }
+        }
+    }
+
+    //图片裁剪
+    private void photoZoom(Uri uri){
+        if (uri == null){
+            HWLog.e(" uri is null");
+            return;
+        }
+
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(uri, "image/*");
+        intent.putExtra("crop", "true");
+
+        //设置裁剪后图片的长宽比例
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+
+        //设置裁剪后图片的尺寸
+        intent.putExtra("outputX", 320);
+        intent.putExtra("outputY", 320);
+        intent.putExtra("return-data", true);
+        startActivityForResult(intent, PHOTOZOOM_REQUEST_CODE);
+    }
+
+    //图片裁剪之后的处理
+    private void handleAfterPhotoZoom(Intent data){
+        if (data != null) {
+
+            //给控件设置图片
+            Bundle bundle = data.getExtras();
+            if (bundle != null){
+                Bitmap bitmap = bundle.getParcelable("data");
+                img_profile.setImageBitmap(bitmap);
+            }
+        }
+    }
 
     //用户退出登录
     private void userLogout(){
@@ -155,7 +247,7 @@ public class UserFragment extends Fragment implements View.OnClickListener{
         et_desc.setEnabled(value);
     }
 
-    //保存修改过的数据
+    //保存修改过的用户数据
     private void saveUserData(){
         String userName = et_username.getText().toString().trim();
         String sex = et_sex.getText().toString().trim();
@@ -199,5 +291,13 @@ public class UserFragment extends Fragment implements View.OnClickListener{
         } else {
             Toast.makeText(getActivity(), StaticClass.EDIT_TEXT_NOT_NIL, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        //保存用户头像
+        UtilTools.saveImageToShareUtils(getActivity(), img_profile);
     }
 }

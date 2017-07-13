@@ -26,4 +26,7 @@ public class StaticClass {
     public static final String EDIT_TEXT_NOT_NIL = "输入框不能为空";
 
     public static final String USER_DEDC_IS_NIL = "这个人很懒，什么也没有留下";
+
+    //用户头像
+    public static final String USER_PFOFIRE_IMAGE = "UserProfileImage";
 }
