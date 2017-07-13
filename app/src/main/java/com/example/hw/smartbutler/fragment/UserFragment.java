@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.example.hw.smartbutler.R;
 import com.example.hw.smartbutler.entity.MyUser;
 import com.example.hw.smartbutler.ui.LoginActivity;
+import com.example.hw.smartbutler.utils.HWLog;
 import com.example.hw.smartbutler.utils.StaticClass;
 import com.example.hw.smartbutler.view.CustomDialog;
 
@@ -49,10 +50,6 @@ public class UserFragment extends Fragment implements View.OnClickListener{
 
     private void initView(View view) {
 
-        //用户头像
-        img_profile = view.findViewById(R.id.img_profile);
-        img_profile.setOnClickListener(this);
-
         btn_change = view.findViewById(R.id.btn_change);
         btn_change.setOnClickListener(this);
 
@@ -69,6 +66,10 @@ public class UserFragment extends Fragment implements View.OnClickListener{
         //设置控件不可编辑，也可以在xml中设置
         setEditTextEnabled(false);
 
+        //用户头像
+        img_profile = view.findViewById(R.id.img_profile);
+        img_profile.setOnClickListener(this);
+
         photo_Dialog = new CustomDialog(getActivity(), 0, 0, R.layout.dialog_photo, R.style.pop_anim_style, Gravity.BOTTOM, 0);
         //设置点击屏幕无效
         photo_Dialog.setCancelable(false);
@@ -80,6 +81,14 @@ public class UserFragment extends Fragment implements View.OnClickListener{
         btn_cancel = photo_Dialog.findViewById(R.id.btn_cancel);
         btn_cancel.setOnClickListener(this);
 
+        /**
+         *
+         * 1.慕课网上的代码，首次进入APP点击跳过按钮时，并没有执行到 UserFragment，也没有调用到 MyUser；
+         *
+         * 2.而我的代码，首次进入APP点击跳过按钮时，执行到了 UserFragment，访问了 MyUser；
+         *
+         * 3.由于此时这里的 MyUser 为 null，所有报了空指针异常
+         * */
         MyUser user = BmobUser.getCurrentUser(MyUser.class);
         if (user != null) {
             et_username.setText(user.getUsername());
