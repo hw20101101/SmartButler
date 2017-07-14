@@ -54,6 +54,7 @@ public class LogisticsActivity extends BaseActivity implements View.OnClickListe
         et_companyName = (EditText) findViewById(R.id.et_companyName);
 
         lv_logisticsData = (ListView) findViewById(R.id.lv_logisticsData);
+        lv_logisticsData.setDivider(null);
     }
 
     @Override
