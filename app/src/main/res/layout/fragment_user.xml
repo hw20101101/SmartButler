@@ -129,6 +129,7 @@
             android:textColor="@android:color/white"/>
 
         <TextView
+            android:id="@+id/tv_logistics"
             android:text="物流查询"
             android:textSize="20dp"
             android:layout_margin="15dp"

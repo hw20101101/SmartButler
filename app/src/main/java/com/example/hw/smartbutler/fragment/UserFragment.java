@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.example.hw.smartbutler.R;
 import com.example.hw.smartbutler.entity.MyUser;
 import com.example.hw.smartbutler.ui.LoginActivity;
+import com.example.hw.smartbutler.ui.LogisticsActivity;
 import com.example.hw.smartbutler.utils.HWLog;
 import com.example.hw.smartbutler.utils.StaticClass;
 import com.example.hw.smartbutler.utils.UtilTools;
@@ -41,7 +42,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class UserFragment extends Fragment implements View.OnClickListener{
 
     private Button btn_change, btn_logout, btn_camera, btn_photo, btn_cancel;
-    private TextView tv_editData;
+    private TextView tv_editData, tv_logistics;
     private EditText et_username, et_age, et_sex, et_desc;
     private CustomDialog photo_Dialog;
     //用户头像
@@ -63,14 +64,21 @@ public class UserFragment extends Fragment implements View.OnClickListener{
 
     private void initView(View view) {
 
+        //确认修改
         btn_change = view.findViewById(R.id.btn_change);
         btn_change.setOnClickListener(this);
 
+        //登出
         btn_logout = view.findViewById(R.id.btn_logout);
         btn_logout.setOnClickListener(this);
 
+        //编辑资料
         tv_editData = view.findViewById(R.id.tv_editData);
         tv_editData.setOnClickListener(this);
+
+        //物流查询
+        tv_logistics = view.findViewById(R.id.tv_logistics);
+        tv_logistics.setOnClickListener(this);
 
         et_username = view.findViewById(R.id.et_username);
         et_sex = view.findViewById(R.id.et_sex);
@@ -89,6 +97,7 @@ public class UserFragment extends Fragment implements View.OnClickListener{
             img_profile.setImageBitmap(bitmap);
         }
 
+        //修改用户头像的弹窗
         photo_Dialog = new CustomDialog(getActivity(), 0, 0, R.layout.dialog_photo, R.style.pop_anim_style, Gravity.BOTTOM, 0);
         //设置点击屏幕无效
         photo_Dialog.setCancelable(false);
@@ -148,6 +157,10 @@ public class UserFragment extends Fragment implements View.OnClickListener{
             case R.id.tv_editData:
                 setEditTextEnabled(true);
                 btn_change.setVisibility(View.VISIBLE);
+                break;
+
+            case R.id.tv_logistics://物流查询
+                startActivity(new Intent(getActivity(), LogisticsActivity.class));
                 break;
         }
     }

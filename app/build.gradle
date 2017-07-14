@@ -43,8 +43,17 @@ dependencies {
     compile 'com.tencent.bugly:nativecrashreport:latest.release'
 
     //bmob-sdk：Bmob的android sdk包，包含了Bmob的数据存储、文件等服务，以下是最新的bmob-sdk:
-    compile 'cn.bmob.android:bmob-sdk:3.5.5'
+    compile ('cn.bmob.android:bmob-sdk:3.5.5'){
+        //设置过滤 io.reactivex 此包下面的文件
+        exclude group: "io.reactivex"
+    }
 
     //图片圆角框架
     compile 'de.hdodenhof:circleimageview:2.1.0'
+
+    //网络请求框架
+    compile ('com.kymjs.rxvolley:rxvolley:1.1.4'){
+        //设置过滤 io.reactivex 此包下面的文件
+        exclude group: "io.reactivex"
+    }
 }

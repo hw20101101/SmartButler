@@ -19,6 +19,9 @@ public class StaticClass {
     //Bmob APPID
     public static final String BMOB_APP_ID = "b030873e140ba238058c2bc50e8f8ed9";
 
+    //聚合数据 - 常用快递
+    public static final String JUHE_KUAIDI_APP_ID = "b48da46a2c8e852726ee8642e4c9ef7d";
+
     //User
     public static final String USER_NAME = "UserName";
     public static final String PASS_WORD = "Password";
