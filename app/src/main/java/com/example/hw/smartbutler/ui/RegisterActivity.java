@@ -11,7 +11,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.example.hw.smartbutler.R;
-import com.example.hw.smartbutler.entity.MyUser;
+import com.example.hw.smartbutler.entity.UserEntity;
 import com.example.hw.smartbutler.utils.StaticClass;
 
 import cn.bmob.v3.exception.BmobException;
@@ -112,7 +112,7 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         }
 
         //生成用户数据
-        MyUser user = new MyUser();
+        UserEntity user = new UserEntity();
         user.setUsername(name);
         user.setAge(Integer.parseInt(age));
         user.setDesc(desc);
@@ -120,9 +120,9 @@ public class RegisterActivity extends BaseActivity implements View.OnClickListen
         user.setEmail(email);
         user.setSex(isGender);
 
-        user.signUp(new SaveListener<MyUser>() {
+        user.signUp(new SaveListener<UserEntity>() {
             @Override
-            public void done(MyUser myUser, BmobException e) {
+            public void done(UserEntity myUser, BmobException e) {
                 if (e == null){
                     Toast.makeText(RegisterActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
                     finish();

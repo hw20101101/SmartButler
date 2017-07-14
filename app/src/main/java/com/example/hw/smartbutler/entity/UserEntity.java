@@ -4,10 +4,10 @@ import cn.bmob.v3.BmobUser;
 
 /**
  * Created by HW on 11/07/2017.
- * 用户属性
+ * 用户实体
  */
 
-public class MyUser extends BmobUser{
+public class UserEntity extends BmobUser{
 
     private int age;
     private boolean sex;

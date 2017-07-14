@@ -14,8 +14,7 @@ import android.widget.Toast;
 
 import com.example.hw.smartbutler.MainActivity;
 import com.example.hw.smartbutler.R;
-import com.example.hw.smartbutler.entity.MyUser;
-import com.example.hw.smartbutler.utils.HWLog;
+import com.example.hw.smartbutler.entity.UserEntity;
 import com.example.hw.smartbutler.utils.ShareUtils;
 import com.example.hw.smartbutler.utils.StaticClass;
 import com.example.hw.smartbutler.view.CustomDialog;
@@ -97,13 +96,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (!TextUtils.isEmpty(userName) & !TextUtils.isEmpty(password)){
             progress_Dialog.show();
 
-            final MyUser user = new MyUser();
+            final UserEntity user = new UserEntity();
             user.setUsername(userName);
             user.setPassword(password);
 
-            user.login(new SaveListener<MyUser>() {
+            user.login(new SaveListener<UserEntity>() {
                 @Override
-                public void done(MyUser myUser, BmobException e) {
+                public void done(UserEntity myUser, BmobException e) {
                     progress_Dialog.dismiss();
 
                     if (e == null){

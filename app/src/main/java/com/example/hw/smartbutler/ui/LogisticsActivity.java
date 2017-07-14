@@ -10,10 +10,21 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.hw.smartbutler.R;
+import com.example.hw.smartbutler.adapter.LogisticsAdapter;
+import com.example.hw.smartbutler.entity.LogisticsEntity;
 import com.example.hw.smartbutler.utils.HWLog;
 import com.example.hw.smartbutler.utils.StaticClass;
+import com.example.hw.smartbutler.utils.UtilTools;
 import com.kymjs.rxvolley.RxVolley;
 import com.kymjs.rxvolley.client.HttpCallback;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by HW on 13/07/2017.
@@ -26,12 +37,12 @@ public class LogisticsActivity extends BaseActivity implements View.OnClickListe
     //物流信息列表
     private ListView lv_logisticsData;
     private EditText et_companyName, et_number;
+    private List<LogisticsEntity> list = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logistics);
-
         initView();
     }
 
@@ -70,19 +81,41 @@ public class LogisticsActivity extends BaseActivity implements View.OnClickListe
         String url = "http://v.juhe.cn/exp/index?key=" + StaticClass.JUHE_KUAIDI_APP_ID + "&com=" + companyName + "&no=" + number;
         RxVolley.get(url, new HttpCallback() {
             @Override
-            public void onSuccess(String t) {
-                Toast.makeText(LogisticsActivity.this, t, Toast.LENGTH_SHORT).show();
-                HWLog.d("-->> json:" + t);
+            public void onSuccess(String jsonData) {
+
+                //4.解析返回的数据
+                parsingJson(jsonData);
             }
         });
-
-        //4.解析返回的数据
-
-        //5.设置ListView适配器
-
-        //6.实体类
-
-        //7.展示数据
     }
 
+    //解析返回的数据
+    private void parsingJson(String jsonData) {
+        try {
+            JSONObject jsonObject = new JSONObject(jsonData);
+            JSONObject result = jsonObject.getJSONObject("result");
+            JSONArray array = result.getJSONArray("list");
+
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject object = (JSONObject) array.get(i);
+
+                //创建并设置实体类
+                LogisticsEntity entity = new LogisticsEntity();
+                entity.setRemark(object.getString("remark"));
+                entity.setZone(object.getString("zone"));
+                entity.setTime(object.getString("datetime"));
+                list.add(entity);
+            }
+
+            //使数组倒序
+            Collections.reverse(list);
+
+            //设置ListView适配器
+            LogisticsAdapter adapter = new LogisticsAdapter(this, list);
+            lv_logisticsData.setAdapter(adapter);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 }

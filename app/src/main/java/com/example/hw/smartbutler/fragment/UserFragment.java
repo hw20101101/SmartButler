@@ -19,7 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hw.smartbutler.R;
-import com.example.hw.smartbutler.entity.MyUser;
+import com.example.hw.smartbutler.entity.UserEntity;
 import com.example.hw.smartbutler.ui.LoginActivity;
 import com.example.hw.smartbutler.ui.LogisticsActivity;
 import com.example.hw.smartbutler.utils.HWLog;
@@ -111,13 +111,13 @@ public class UserFragment extends Fragment implements View.OnClickListener{
 
         /**
          *
-         * 1.慕课网上的代码，首次进入APP点击跳过按钮时，并没有执行到 UserFragment，也没有调用到 MyUser；
+         * 1.慕课网上的代码，首次进入APP点击跳过按钮时，并没有执行到 UserFragment，也没有调用到 UserEntity；
          *
-         * 2.而我的代码，首次进入APP点击跳过按钮时，执行到了 UserFragment，访问了 MyUser；
+         * 2.而我的代码，首次进入APP点击跳过按钮时，执行到了 UserFragment，访问了 UserEntity；
          *
-         * 3.由于此时这里的 MyUser 为 null，所有报了空指针异常
+         * 3.由于此时这里的 UserEntity 为 null，所有报了空指针异常
          * */
-        MyUser user = BmobUser.getCurrentUser(MyUser.class);
+        UserEntity user = BmobUser.getCurrentUser(UserEntity.class);
         if (user != null) {
             et_username.setText(user.getUsername());
             et_sex.setText(user.isSex() ? "男" : "女");
@@ -243,9 +243,9 @@ public class UserFragment extends Fragment implements View.OnClickListener{
     //用户退出登录
     private void userLogout(){
         //清除缓存的用户对象
-        MyUser.logOut();
+        UserEntity.logOut();
         //使 currentUser 为 null
-        BmobUser currentUser = MyUser.getCurrentUser();
+        BmobUser currentUser = UserEntity.getCurrentUser();
 
         //跳转到登录界面
         startActivity(new Intent(getActivity(), LoginActivity.class));
@@ -271,7 +271,7 @@ public class UserFragment extends Fragment implements View.OnClickListener{
                 & !TextUtils.isEmpty(sex)
                 & !TextUtils.isEmpty(age) ){
 
-            MyUser user = new MyUser();
+            UserEntity user = new UserEntity();
             user.setUsername(userName);
             user.setAge(Integer.parseInt(age));
 

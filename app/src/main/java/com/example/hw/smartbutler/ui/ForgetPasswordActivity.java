@@ -9,8 +9,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.hw.smartbutler.R;
-import com.example.hw.smartbutler.entity.MyUser;
-import com.example.hw.smartbutler.utils.HWLog;
 import com.example.hw.smartbutler.utils.StaticClass;
 
 import cn.bmob.v3.BmobUser;
